@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 public class Main_logger {
 
-    private static final String BACKGROUND_IMAGE_PATH = "Accounting/0c77d862252232dc194ebfa0ed83d32fa028a1bc.png"; // 相対パス
+    private static final String BACKGROUND_IMAGE_PATH = "Your favourite image Here"; // relative path
     private static final String CSV_FILENAME = "accounting_log.csv";
 
     private JFrame frame;
     private JTextField itemField;
     private JTextField amountField;
     private JTextArea memoArea;
-    private String lastType = ""; // 最後に押された収入 or 出費
+    private String lastType = "";
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Main_logger().createAndShowGUI());
@@ -27,7 +27,6 @@ public class Main_logger {
         frame.setSize(730, 400);
         frame.setLocationRelativeTo(null);
 
-        // 背景付きパネル
         JPanel backgroundPanel = new JPanel() {
             Image bg = new ImageIcon(new File(BACKGROUND_IMAGE_PATH).getAbsolutePath()).getImage();
             @Override
@@ -39,47 +38,44 @@ public class Main_logger {
         backgroundPanel.setLayout(new BoxLayout(backgroundPanel, BoxLayout.Y_AXIS));
         backgroundPanel.setOpaque(false);
 
-        // accounting item and amount input fields
+        // Input Fields
         JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         inputPanel.setOpaque(false);
         itemField = new JTextField();
         amountField = new JTextField();
-        JLabel itemLabel = new JLabel("Accounting item:");
-        itemLabel.setForeground(Color.WHITE);
 
-        JLabel amountLabel = new JLabel("Cost: $");
-        amountLabel.setForeground(Color.WHITE);
+        JLabel itemLabel = new JLabel("Item:");
+        itemLabel.setForeground(Color.BLUE);
+        JLabel amountLabel = new JLabel("Amount:");
+        amountLabel.setForeground(Color.BLUE);
 
         inputPanel.add(itemLabel);
         inputPanel.add(itemField);
         inputPanel.add(amountLabel);
         inputPanel.add(amountField);
 
-
-        // ボタン（収入・出費）
+        // Income / Expense Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setOpaque(false);
-        JButton incomeButton = new JButton("収入");
+        JButton incomeButton = new JButton("Income");
         incomeButton.setForeground(Color.RED);
-        JButton expenseButton = new JButton("出費");
+        JButton expenseButton = new JButton("Expense");
         expenseButton.setForeground(Color.BLUE);
-
         buttonPanel.add(incomeButton);
         buttonPanel.add(expenseButton);
 
-        // （選択）＋保存・開くボタン
+        // Save / Open Section
         JPanel filePanel = new JPanel(new FlowLayout());
         filePanel.setOpaque(false);
-        JLabel optionLabel = new JLabel("（選択）");
-        JButton saveButton = new JButton("保存");
-        JButton loadButton = new JButton("開く");
-
+        JLabel optionLabel = new JLabel("(Choose)");
+        JButton saveButton = new JButton("Save");
+        JButton loadButton = new JButton("Open");
         filePanel.add(optionLabel);
         filePanel.add(saveButton);
         filePanel.add(loadButton);
 
-        // 備考欄
-        JLabel memoLabel = new JLabel("備考欄:");
+        // Memo Area
+        JLabel memoLabel = new JLabel("Comment:");
         memoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         memoArea = new JTextArea(4, 30);
         memoArea.setLineWrap(true);
@@ -87,14 +83,13 @@ public class Main_logger {
         memoArea.setEditable(true);
         JScrollPane memoScroll = new JScrollPane(memoArea);
 
-        // イベント
-        incomeButton.addActionListener(e -> lastType = "収入");
-        expenseButton.addActionListener(e -> lastType = "出費");
+        // Button Actions
+        incomeButton.addActionListener(e -> lastType = "Income");
+        expenseButton.addActionListener(e -> lastType = "Expense");
 
         saveButton.addActionListener(e -> saveToCSV());
         loadButton.addActionListener(e -> loadFromCSV());
 
-        // パネルに追加
         backgroundPanel.add(Box.createVerticalStrut(10));
         backgroundPanel.add(inputPanel);
         backgroundPanel.add(buttonPanel);
@@ -112,7 +107,7 @@ public class Main_logger {
         String memo = memoArea.getText().trim();
 
         if (item.isEmpty() || amount.isEmpty() || lastType.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "会計項目、金額、収入/出費の選択をしてください。", "エラー", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Please enter item, amount, and choose income or expense.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -121,10 +116,9 @@ public class Main_logger {
             boolean fileExists = file.exists();
 
             FileOutputStream fos = new FileOutputStream(file, true);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, fileExists ? "UTF-8" : "UTF-8");
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
             BufferedWriter writer = new BufferedWriter(osw);
 
-            // 初回保存時にBOM付きで書く（UTF-8でExcelでも開ける）
             if (!fileExists) {
                 fos.write(0xEF);
                 fos.write(0xBB);
@@ -134,7 +128,7 @@ public class Main_logger {
             writer.write(String.format("%s,%s,%s,%s%n", item, amount, lastType, memo));
             writer.close();
 
-            JOptionPane.showMessageDialog(frame, "CSVファイルに保存しました！", "保存完了", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Saved to CSV file!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             itemField.setText("");
             amountField.setText("");
@@ -142,10 +136,9 @@ public class Main_logger {
             lastType = "";
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame, "保存エラー：" + e.getMessage(), "ファイルエラー", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Save Error: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void loadFromCSV() {
         try (Scanner scanner = new Scanner(new File(CSV_FILENAME))) {
@@ -153,9 +146,9 @@ public class Main_logger {
             while (scanner.hasNextLine()) {
                 sb.append(scanner.nextLine()).append("\n");
             }
-            JOptionPane.showMessageDialog(frame, sb.length() > 0 ? sb.toString() : "データがありません。", "読み込み結果", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, sb.length() > 0 ? sb.toString() : "No data available.", "Load Result", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame, "読み込みエラー：" + e.getMessage(), "ファイルエラー", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Load Error: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
