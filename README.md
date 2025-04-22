@@ -28,7 +28,7 @@ This is a simple **Java Swing-based desktop application** designed for personal 
 
 - Java 8 or higher
 - IntelliJ IDEA (or any IDE that supports Java)
-- `Accounting/article_scheme.jpeg` *(optional background image file)*
+- *(optional background image file)*
 
 ---
 
@@ -44,10 +44,10 @@ This is a simple **Java Swing-based desktop application** designed for personal 
 3. **Run** the `Main_logger.java` file.
 
 4. *(Optional)* Set a background image:
-   - Place your image in `Accounting/article_scheme.jpeg`
+   - Place your image
    - Update the line in `Main_logger.java`:
      ```java
-     private static final String BACKGROUND_IMAGE_PATH = "Accounting/article_scheme.jpeg";
+     private static final String BACKGROUND_IMAGE_PATH = "Accounting/....";
      ```
 
 ---
