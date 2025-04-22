@@ -6,7 +6,8 @@ This is a simple **Java Swing-based desktop application** designed for personal 
 
 ## 📷 Preview
 
-> *(You can include a screenshot like: `![screenshot](screenshot.png)` if available)*
+> <img width="734" alt="Screenshot 0007-04-22 at 13 20 52" src="https://github.com/user-attachments/assets/3d2b7508-40c7-490e-a0f3-8c4bba95e600" />
+
 
 ---
 
