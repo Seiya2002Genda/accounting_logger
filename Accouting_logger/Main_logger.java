@@ -1,4 +1,4 @@
-package Accouting_logger;
+package Accounting_logger;
 
 import javax.swing.*;
 import java.awt.*;
