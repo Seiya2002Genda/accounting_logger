@@ -29,27 +29,7 @@ This is a simple **Java Swing-based desktop application** designed for personal 
 - Java 8 or higher
 - IntelliJ IDEA (or any IDE that supports Java)
 - *(optional background image file)*
-
----
-
-### 🔧 How to Run
-
-1. **Clone this repository**:
-   ```bash
-   git clone https://github.com/your-username/accounting-logger-app.git
-   ```
-
-2. **Open the project** in IntelliJ IDEA or any Java IDE.
-
-3. **Run** the `Main_logger.java` file.
-
-4. *(Optional)* Set a background image:
-   - Place your image
-   - Update the line in `Main_logger.java`:
-     ```java
-     private static final String BACKGROUND_IMAGE_PATH = "Accounting/....";
-     ```
-
+  
 ---
 
 ## 📄 CSV Format
@@ -70,7 +50,7 @@ Coffee,-5,Expense,Morning coffee
 ├── Accouting_logger/
 │   └── Main_logger.java
 ├── Accounting/
-│   └── article_scheme.jpeg   ← optional background image
+│   └── No name   ← optional background image
 ├── accounting_log.csv        ← generated automatically
 └── README.md
 ```
